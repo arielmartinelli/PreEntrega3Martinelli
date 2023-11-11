@@ -1,0 +1,42 @@
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+body .app {
+  width: 100%;
+}
+body #app {
+  text-align: center;
+}
+body h1 {
+  font-size: 3rem;
+}
+body ul {
+  list-style-type: none;
+  padding: 0;
+}
+body ul li {
+  font-size: 1.5rem;
+  margin: 5px 0;
+  cursor: pointer;
+}
+body .input {
+  height: 30px;
+  border-radius: 5px;
+  font-size: 1rem;
+  padding-left: 1%;
+}
+body .boton {
+  border: none;
+  background-color: rgb(92, 136, 218);
+  font-size: 1rem;
+  color: white;
+}
+body .boton:hover {
+  background-color: rgb(75, 101, 150);
+}
+
+/*# sourceMappingURL=estilo.css.map */
