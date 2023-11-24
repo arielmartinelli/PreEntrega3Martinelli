@@ -1,11 +1,10 @@
-const producto = [];
+const producto = JSON.parse(localStorage.getItem('listaProductos')) || [];
 
 function agregarProducto() {
     const input = document.getElementById('input');
     const nombreProducto = input.value.trim();
 
     if (nombreProducto !== '') {
-
         const item = {
             nombre: nombreProducto,
             comprado: false
@@ -16,6 +15,7 @@ function agregarProducto() {
         input.value = '';
 
         updatelistaProducto();
+        guardarListaEnStorage();
     }
 }
 
@@ -39,6 +39,32 @@ function updatelistaProducto() {
 function toggleTask(index) {
     producto[index].comprado = !producto[index].comprado;
     updatelistaProducto();
+
+    guardarListaEnStorage();
+}
+
+function guardarListaEnStorage() {
+    localStorage.setItem('listaProductos', JSON.stringify(producto));
+}
+
+function borrarLista() {
+    const confirmacion = confirm('¿Estás seguro de que deseas borrar la lista de compras?');
+
+    if (confirmacion) {
+        producto.length = 0;
+        updatelistaProducto();
+
+        
+        guardarL
+guardarListaEnStorage();
+    }
 }
 
 window.onload = updatelistaProducto;
+
+
+document.getElementById('input').addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+        agregarProducto();
+    }
+});
