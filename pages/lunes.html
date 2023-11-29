@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de compras</title>
+    <link rel="stylesheet" href="/css/estilo.css">
+</head>
+<body>
+    <div class="app" id="app">
+        <h1>Lista de compras</h1>
+        <h2>Lunes</h2>
+        
+        <input class="input" ctype="text" id="input" placeholder="Agregar nuevo producto">
+        <button class="boton" style="height: 35px;" onclick="agregarProducto()">Agregar </button>
+        <button class="boton" id="borrar" style="height: 35px;" onclick="borrarLista()">Borrar Lista</button>
+        <ul id="listaProducto"></ul>
+    </div>
+    <script src="../index.js"></script>
+</body>
+</html>
