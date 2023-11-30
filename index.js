@@ -1,70 +1,63 @@
-const producto = JSON.parse(localStorage.getItem('listaProductos')) || [];
+function iniciarSesion() {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
 
-function agregarProducto() {
-    const input = document.getElementById('input');
-    const nombreProducto = input.value.trim();
+    const usuariosRegistrados = JSON.parse(localStorage.getItem('usuarios')) || [];
+    const usuarioExistente = usuariosRegistrados.find(user => user.username === username && user.password === password);
 
-    if (nombreProducto !== '') {
-        const item = {
-            nombre: nombreProducto,
-            comprado: false
+    if (usuarioExistente) {
+        redireccionarAPagina();
+    } else {
+        alert('Nombre de usuario o contraseña incorrectos. Inténtalo de nuevo.');
+    }
+}
+
+function registrarUsuario() {
+    const newUsername = document.getElementById('newUsername').value;
+    const newPassword = document.getElementById('newPassword').value;
+
+    const usuariosRegistrados = JSON.parse(localStorage.getItem('usuarios')) || [];
+    const usuarioExistente = usuariosRegistrados.find(user => user.username === newUsername);
+
+    if (usuarioExistente) {
+        alert('El nombre de usuario ya está en uso. Por favor, elige otro.');
+    } else {
+        const nuevoUsuario = {
+            username: newUsername,
+            password: newPassword
         };
 
-        producto.push(item);
+        usuariosRegistrados.push(nuevoUsuario);
+        localStorage.setItem('usuarios', JSON.stringify(usuariosRegistrados));
 
-        input.value = '';
-
-        updatelistaProducto();
-        guardarListaEnStorage();
+        alert('Usuario registrado con éxito. Ahora puedes iniciar sesión.');
+        mostrarFormularioLogin();
     }
 }
 
-function updatelistaProducto() {
-    const listaProducto = document.getElementById('listaProducto');
-    listaProducto.innerHTML = '';
-
-    producto.forEach((item, index) => {
-        const listado = document.createElement('li');
-        listado.textContent = `${index + 1}) ${item.nombre} - ${item.comprado ? 'Comprado ✔' : 'Pendiente'}`;
-        listado.style.color = item.comprado ? 'green' : 'black';
-
-        listado.addEventListener('click', () => {
-            toggleTask(index);
-        });
-
-        listaProducto.appendChild(listado);
-    });
+function redireccionarAPagina() {
+    window.location.href = 'inicio.html';
 }
 
-function toggleTask(index) {
-    producto[index].comprado = !producto[index].comprado;
-    updatelistaProducto();
-
-    guardarListaEnStorage();
+function mostrarFormularioRegistro() {
+    document.getElementById('loginForm').style.display = 'none';
+    document.getElementById('registroForm').style.display = 'block';
 }
 
-function guardarListaEnStorage() {
-    localStorage.setItem('listaProductos', JSON.stringify(producto));
+function mostrarFormularioLogin() {
+    document.getElementById('loginForm').style.display = 'block';
+    document.getElementById('registroForm').style.display = 'none';
 }
 
-function borrarLista() {
-    const confirmacion = confirm('¿Estás seguro de que deseas borrar la lista de compras?');
-
-    if (confirmacion) {
-        producto.length = 0;
-        updatelistaProducto();
-
-        
-        guardarL
-guardarListaEnStorage();
-    }
-}
-
-window.onload = updatelistaProducto;
-
-
-document.getElementById('input').addEventListener('keypress', function (e) {
+document.getElementById('newPassword').addEventListener('keypress', function (e) {
     if (e.key === 'Enter') {
-        agregarProducto();
+        registrarUsuario();
     }
 });
+
+document.getElementById('password').addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+        iniciarSesion();
+    }
+});
+
