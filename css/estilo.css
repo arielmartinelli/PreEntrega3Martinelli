@@ -1,103 +1,50 @@
 body {
-  font-family: Arial, sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   margin: 0;
-}
-
-.loginForm{
-  padding: 5%;
-  border: 1px solid black;
-  margin-top: 10%;
-}
-
-.loginForm button{
-  border: none;
-  background-color: rgb(92, 136, 218);
-  font-size: 1rem;
+  padding: 0;
+  font-family: sans-serif;
+  background: linear-gradient(#141e30, #243b55);
   color: white;
 }
 
-.loginForm button:hover{
-  background-color: rgb(75, 101, 150);
+.navbar a {
+  margin-right: 1rem;
+  padding-bottom: 2px;
+  font-size: 1.2rem;
+  border-bottom: 2px solid #ffffff;
+}
+.navbar a:hover {
+  border-bottom: 2px solid #243b55;
 }
 
-.registroForm{
-  padding: 5%;
-  border: 1px solid black;
-  margin-top: 10%;
-}
-
-.registroForm button{
-  border: none;
-  background-color: rgb(92, 136, 218);
-  font-size: 1rem;
-  color: white;
-}
-
-.registroForm button:hover{
-  background-color: rgb(75, 101, 150);
-}
-
-body .app {
+.box-1 {
+  position: relative;
   width: 100%;
-  
-}
-.diasSemana a{
-  padding: 5px;
-  text-decoration: none;
-  border: none;
-  background-color: rgb(92, 136, 218);
-  font-size: 1rem;
+  height: 450px;
+  background: url("../img/flayer.png") center/cover no-repeat;
   color: white;
+  text-align: start;
+  box-sizing: border-box;
+}
+.box-1 h1 {
+  font-size: 2.5rem;
+  text-shadow: 0px 2px black;
 }
 
-.diasSemana a:hover{
-  background-color: rgb(75, 101, 150);
+.container h2 {
+  font-size: 3.5rem;
 }
-
-body #app {
-  text-align: center;
-}
-body h1 {
+.container label {
   font-size: 3rem;
 }
-
-body h2{
-  font-size: 2.5rem;
+.container span {
+  font-size: 1.8rem;
+}
+.container button {
+  font-size: 1.2rem;
 }
 
-body ul {
-  list-style-type: none;
-  padding: 0;
-}
-body ul li {
-  font-size: 1.5rem;
-  margin: 5px 0;
-  cursor: pointer;
-}
-body .input {
-  height: 30px;
-  border-radius: 5px;
-  font-size: 1rem;
-  padding-left: 1%;
-}
-body .boton {
-  border: none;
-  background-color: rgb(92, 136, 218);
-  font-size: 1rem;
-  color: white;
-}
-body .boton:hover {
-  background-color: rgb(75, 101, 150);
+.inversiones p {
+  font-size: 1.2rem;
 }
 
-#borrar{
-  background-color: red;
-}
-
-#borrar:hover{
-  background-color: rgb(206, 29, 29);
-}
 /*# sourceMappingURL=estilo.css.map */

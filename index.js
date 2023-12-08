@@ -1,63 +1,60 @@
-function iniciarSesion() {
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
+document.getElementById('monto').addEventListener('input', function () {
+    // Actualizamos el valor del span para mostrar el monto seleccionado
+    document.getElementById('montoSeleccionado').innerText = `Monto Seleccionado: $${this.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+});
 
-    const usuariosRegistrados = JSON.parse(localStorage.getItem('usuarios')) || [];
-    const usuarioExistente = usuariosRegistrados.find(user => user.username === username && user.password === password);
+function calcularInversion() {
+    const monto = parseFloat(document.getElementById('monto').value);
 
-    if (usuarioExistente) {
-        redireccionarAPagina();
-    } else {
-        alert('Nombre de usuario o contraseña incorrectos. Inténtalo de nuevo.');
-    }
-}
+    const resultados = {};
+    
+    const opciones = ['Plazo fijo', 'Dolares', 'Acciones', 'Mercado Pago', 'Bonos'];
+    opciones.forEach(opc => {
+        let gananciaMensual = 0;
 
-function registrarUsuario() {
-    const newUsername = document.getElementById('newUsername').value;
-    const newPassword = document.getElementById('newPassword').value;
+        switch (opc) {
+            case 'Plazo fijo':
+                gananciaMensual = monto * 0.02;
+                break;
+            case 'Dolares':
+                gananciaMensual = monto * 0.01;
+                break;
+            case 'Acciones':
+                gananciaMensual = monto * 0.03;
+                break;
+            case 'Mercado Pago':
+                gananciaMensual = monto * 0.015;
+                break;
+            case 'Bonos':
+                gananciaMensual = monto * 0.025;
+                break;
+            default:
+                break;
+        }
 
-    const usuariosRegistrados = JSON.parse(localStorage.getItem('usuarios')) || [];
-    const usuarioExistente = usuariosRegistrados.find(user => user.username === newUsername);
+        // Calculamos la ganancia anual
+        const gananciaAnual = gananciaMensual * 12;
 
-    if (usuarioExistente) {
-        alert('El nombre de usuario ya está en uso. Por favor, elige otro.');
-    } else {
-        const nuevoUsuario = {
-            username: newUsername,
-            password: newPassword
+        // Almacenamos los resultados en el objeto 'resultados'
+        resultados[opc] = {
+            gananciaMensual: gananciaMensual.toFixed(2),
+            gananciaAnual: gananciaAnual.toFixed(2)
         };
+    });
 
-        usuariosRegistrados.push(nuevoUsuario);
-        localStorage.setItem('usuarios', JSON.stringify(usuariosRegistrados));
+    const mejorOpcion = Object.keys(resultados).reduce((a, b) => resultados[a].gananciaAnual > resultados[b].gananciaAnual ? a : b);
 
-        alert('Usuario registrado con éxito. Ahora puedes iniciar sesión.');
-        mostrarFormularioLogin();
-    }
+    Swal.fire({
+        title: 'Resultados de Todas las Inversiones',
+        html: Object.keys(resultados).map(opc => `<b>${opc}:</b><br>
+            Ganancia Mensual: $${resultados[opc].gananciaMensual}<br>
+            Ganancia Anual: $${resultados[opc].gananciaAnual}<br><br>`).join(''),
+        icon: 'info'
+    }).then(() => {
+        Swal.fire({
+            title: 'Mejor Opción de Inversión',
+            text: `La mejor opción de inversión es Acciones.`,
+            icon: 'success'
+        });
+    });
 }
-
-function redireccionarAPagina() {
-    window.location.href = 'inicio.html';
-}
-
-function mostrarFormularioRegistro() {
-    document.getElementById('loginForm').style.display = 'none';
-    document.getElementById('registroForm').style.display = 'block';
-}
-
-function mostrarFormularioLogin() {
-    document.getElementById('loginForm').style.display = 'block';
-    document.getElementById('registroForm').style.display = 'none';
-}
-
-document.getElementById('newPassword').addEventListener('keypress', function (e) {
-    if (e.key === 'Enter') {
-        registrarUsuario();
-    }
-});
-
-document.getElementById('password').addEventListener('keypress', function (e) {
-    if (e.key === 'Enter') {
-        iniciarSesion();
-    }
-});
-
