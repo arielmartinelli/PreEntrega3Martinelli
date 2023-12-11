@@ -37,19 +37,31 @@ body {
     h2{
         font-size: 3.5rem;
     }
+    .chico{
+        font-size: 2.5rem;
+    }
     label{
-        font-size:3rem ;
+        font-size:3.5rem ;
     }
     span{
-        font-size: 1.8rem;
+        font-size: 2rem;
     }
     button{
         font-size: 1.2rem;
     }
+}
+.form-range{
+    width: 40rem;
 }
 
 .inversiones{
     p{
         font-size: 1.2rem;
     }
+}
+
+.prestamo{
+    p{
+        font-size: 1.2rem;
+    } 
 }
