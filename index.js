@@ -1,5 +1,4 @@
 document.getElementById('monto').addEventListener('input', function () {
-    // Actualizamos el valor del span para mostrar el monto seleccionado
     document.getElementById('montoSeleccionado').innerText = `Monto Seleccionado: $${this.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
 });
 
@@ -9,10 +8,9 @@ function calcularInversion() {
 
     const resultados = {};
 
-    // Datos de interés obtenidos de fuentes oficiales
-    const interesPlazoFijo = 0.025; // 2.5%
-    const interesDolares = 0.15; // Asumiendo la variación del último año
-    const interesMercadoPago = 0.02; // 2%
+    const interesPlazoFijo = 0.025; 
+    const interesDolares = 0.15; 
+    const interesMercadoPago = 0.02; 
 
     const opciones = ['Plazo Fijo', 'Dolares', 'Mercado Pago'];
     opciones.forEach(opc => {
@@ -30,11 +28,9 @@ function calcularInversion() {
                 break;
         }
 
-        // Calculamos la ganancia anual y mensual
         const gananciaAnual = gananciaMensual * 12;
         const gananciaMensualTotal = gananciaMensual * plazo;
 
-        // Almacenamos los resultados en el objeto 'resultados'
         resultados[opc] = {
             gananciaMensual: gananciaMensual.toFixed(2),
             gananciaAnual: gananciaAnual.toFixed(2),
@@ -42,25 +38,21 @@ function calcularInversion() {
         };
     });
 
-    // Encontramos la opción con la mayor ganancia anual (la mejor opción)
     const mejorOpcion = compararResultados(resultados);
 
-    // Mostramos todos los resultados y resaltamos la mejor opción
     Swal.fire({
         title: 'Resultados de Todas las Inversiones',
         html: Object.keys(resultados).map(opc => `<b>${opc}:</b><br>
             Ganancia Mensual: $${resultados[opc].gananciaMensual}<br>
             Ganancia Anual: $${resultados[opc].gananciaAnual}<br>
-            Ganancia Mensual Total (${plazo} meses): $${resultados[opc].gananciaMensualTotal}<br><br>`).join(''),
+            Ganancia Total (${plazo} meses): $${resultados[opc].gananciaMensualTotal}<br><br>`).join(''),
         icon: 'info'
     }).then(() => {
-        // Mostramos la recomendación de la mejor opción
         Swal.fire({
             title: 'Mejor Opción de Inversión',
             text: `La mejor opción de inversión es ${mejorOpcion}.`,
             icon: 'success'
         }).then(() => {
-            // Mostramos alerta con recomendaciones adicionales
             Swal.fire({
                 title: 'Recomendaciones',
                 html: 'Considera explorar otras opciones de inversión como acciones, bonos, letras, entre otras.',
@@ -71,10 +63,8 @@ function calcularInversion() {
 }
 
 function compararResultados(resultados) {
-    // Encontramos la opción con la mayor ganancia anual (la mejor opción)
     const mejorOpcion = Object.keys(resultados).reduce((a, b) => parseFloat(resultados[a].gananciaMensualTotal) > parseFloat(resultados[b].gananciaMensualTotal) ? a : b);
 
-    // Mostramos un alert con la mejor opción
     Swal.fire({
         title: 'Comparación de Inversiones',
         text: `La mejor opción de inversión es ${mejorOpcion}.`,
@@ -84,11 +74,12 @@ function compararResultados(resultados) {
     return mejorOpcion;
 }
 
+
+
 function calcularPrestamo() {
     const monto = parseFloat(document.getElementById('prestamo').value);
     const cuotas = parseInt(document.getElementById('cuotas').value);
-    const interes = parseFloat(document.getElementById('interes').value) / 100; // Convertir a porcentaje
-
+    const interes = parseFloat(document.getElementById('interes').value) / 100; 
     const totalPagar = monto * (1 + interes);
     const cuotaMensual = totalPagar / cuotas;
 
@@ -98,5 +89,63 @@ function calcularPrestamo() {
                 Total a Pagar: $${totalPagar.toFixed(2)}<br>
                 Cuota Mensual: $${cuotaMensual.toFixed(2)}`,
         icon: 'info'
+    });
+}
+
+
+
+function calcularCompra() {
+    const valorProducto = parseFloat(document.getElementById('valorProducto').value);
+    const cuotas = parseFloat(document.getElementById('cuotas').value);
+    const interesCuota = parseFloat(document.getElementById('interesCuota').value);
+
+    const meses = cuotas;
+    const inflacionMensual = 8.3; 
+    const indiceInflacion = inflacionMensual * meses / 100;
+    const inflacionTotal = 1 + indiceInflacion;
+
+    let valorFinalCuotas = 0;
+
+    switch (cuotas) {
+        case 1:
+            valorFinalCuotas = valorProducto * (1 + interesCuota / 100);
+            break;
+        case 3:
+        case 6:
+        case 9:
+        case 12:
+            valorFinalCuotas = valorProducto * interesCuota;
+            break;
+        default:
+            break;
+    }
+
+    const valorFinalInflacion = valorProducto * inflacionTotal;
+    
+    const valorFinalContado = valorProducto;
+
+    console.log(cuotas)
+    console.log(indiceInflacion)
+    console.log(inflacionTotal)
+
+    Swal.fire({
+        title: 'Detalles de la Compra',
+        html: `Valor Contado: $${valorFinalContado.toFixed(2)}<br>
+                Valor Cuotas: $${valorFinalCuotas.toFixed(2)}<br>
+                Valor con Inflación: $${valorFinalInflacion.toFixed(2)}`,
+        icon: 'info'
+    }).then(() => {
+        let recomendacion = '';
+        if (valorFinalCuotas <= valorFinalInflacion) {
+            recomendacion = 'Recomendación: Comprar en cuotas';
+        } else {
+            recomendacion = 'Recomendación: Comprar de contado considerando la inflación total';
+        }
+
+        Swal.fire({
+            title: 'Recomendación',
+            text: recomendacion,
+            icon: 'info'
+        });
     });
 }

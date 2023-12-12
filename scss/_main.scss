@@ -8,6 +8,9 @@ body {
 }
 
 .navbar{
+    #index{
+        border: none;
+    }
     a{
         margin-right: 1rem;
         padding-bottom: 2px;
@@ -17,6 +20,18 @@ body {
             border-bottom:2px solid #243b55;
         }
     }
+    @media (max-width: 991.98px) {
+        ul{
+            margin-right: 5px !important;
+        }
+        a{
+            margin-right: 0px;
+            border-bottom:none;
+            &:hover{
+                border-bottom:none;
+            }
+        }
+      }
 }
 
 .box-1{
@@ -65,3 +80,4 @@ body {
         font-size: 1.2rem;
     } 
 }
+
