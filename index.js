@@ -140,7 +140,7 @@ function calcularCompra() {
         html: `Valor Contado: $${valorProducto.toFixed(2)}<br>
                 Valor con financiamiento: $${valorFinalCuotas.toFixed(2)}<br>
                 Valor de la cuota: $${valorCuota.toFixed(2)}<br>
-                Valor con final tomando la inflacion en los proximos ${meses} meses: $${valorFinalInflacion.toFixed(2)}`,
+                Valor final tomando la inflacion en los proximos ${meses} meses: $${valorFinalInflacion.toFixed(2)}`,
         icon: 'info'
     }).then(() => {
         let recomendacion = '';
