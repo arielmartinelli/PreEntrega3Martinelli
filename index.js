@@ -1,3 +1,14 @@
+window.addEventListener('scroll', function () {
+    let whatsappContainer = document.getElementById('whatsapp-container');
+
+    if (window.scrollY > 700) {
+        whatsappContainer.style.display = 'block';
+    } else {
+        whatsappContainer.style.display = 'none';
+    }
+});
+
+
 document.getElementById('monto').addEventListener('input', function () {
     document.getElementById('montoSeleccionado').innerText = `Monto Seleccionado: $${this.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
 });
@@ -9,7 +20,7 @@ function calcularInversion() {
     const resultados = {};
 
     const interesPlazoFijo = 0.025; 
-    const interesDolares = 0.15; 
+    const interesDolares = 0.1; 
     const interesMercadoPago = 0.02; 
 
     const opciones = ['Plazo Fijo', 'Dolares', 'Mercado Pago'];
@@ -96,7 +107,7 @@ function calcularPrestamo() {
 
 function calcularCompra() {
     const valorProducto = parseFloat(document.getElementById('valorProducto').value);
-    const cuotas = parseFloat(document.getElementById('cuotas').value);
+    const cuotas = parseFloat(document.getElementById('meses').value);
     const interesCuota = parseFloat(document.getElementById('interesCuota').value);
 
     const meses = cuotas;
@@ -114,32 +125,29 @@ function calcularCompra() {
         case 6:
         case 9:
         case 12:
-            valorFinalCuotas = valorProducto * interesCuota;
+            valorFinalCuotas = valorProducto * (1 + interesCuota / 100);
             break;
         default:
             break;
     }
 
     const valorFinalInflacion = valorProducto * inflacionTotal;
-    
-    const valorFinalContado = valorProducto;
+    const valorCuota = valorFinalCuotas / meses
 
-    console.log(cuotas)
-    console.log(indiceInflacion)
-    console.log(inflacionTotal)
 
     Swal.fire({
         title: 'Detalles de la Compra',
-        html: `Valor Contado: $${valorFinalContado.toFixed(2)}<br>
-                Valor Cuotas: $${valorFinalCuotas.toFixed(2)}<br>
-                Valor con Inflación: $${valorFinalInflacion.toFixed(2)}`,
+        html: `Valor Contado: $${valorProducto.toFixed(2)}<br>
+                Valor con financiamiento: $${valorFinalCuotas.toFixed(2)}<br>
+                Valor de la cuota: $${valorCuota.toFixed(2)}<br>
+                Valor con final tomando la inflacion en los proximos ${meses} meses: $${valorFinalInflacion.toFixed(2)}`,
         icon: 'info'
     }).then(() => {
         let recomendacion = '';
         if (valorFinalCuotas <= valorFinalInflacion) {
-            recomendacion = 'Recomendación: Comprar en cuotas';
+            recomendacion = 'Recomendación: Comprar con financiamineto';
         } else {
-            recomendacion = 'Recomendación: Comprar de contado considerando la inflación total';
+            recomendacion = 'Recomendación: Comprar de contado considerando la inflación acumulada';
         }
 
         Swal.fire({
